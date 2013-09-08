@@ -15,7 +15,7 @@
             </div>
             <div th:unless="${customer.anonymous}" th:remove="tag">
                 <span><span th:text="#{home.welcome}">Welcome</span>, <a class="my-account" th:href="@{/account}" th:text="${customer.firstName}"></a></span>
-                &nbsp;|&nbsp; 
+                &nbsp;|&nbsp;
                 <a th:href="@{/logout}">
                     <span th:text="#{home.logout}">Logout</span>
                 </a>

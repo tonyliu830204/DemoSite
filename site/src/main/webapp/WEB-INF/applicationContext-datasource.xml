@@ -17,7 +17,7 @@
         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
-    
+
     <!-- The "webDS" data source is the main data source for Broadleaf. It is referenced and
          should be configured via JNDI in your particular environment. For local testing and
          development using Jetty, the JNDI data source is configured in the /WEB-INF/jetty-env.xml file.
@@ -30,5 +30,5 @@
     <jee:jndi-lookup id="webSecureDS" jndi-name="jdbc/secure"/>
 
     <jee:jndi-lookup id="webStorageDS" jndi-name="jdbc/storage"/>
-    
+
 </beans>

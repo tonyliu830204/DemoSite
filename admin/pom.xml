@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.mycompany</groupId>
@@ -15,7 +15,7 @@
         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
         <!-- httpsPort and httpPort are used by embeded jetty server.-->
         <!-- Make sure the following httpsPort matches what's in the runtime-properties file,  -->
-        <httpsPort>8444</httpsPort> 
+        <httpsPort>8444</httpsPort>
         <httpPort>8081</httpPort>
     </properties>
     <build>
@@ -38,7 +38,7 @@
                     <contextPath>/admin</contextPath>
                     <stopPort>9967</stopPort>
                     <stopKey>foo</stopKey>
-        
+
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                             <port>${httpPort}</port>
@@ -52,11 +52,11 @@
                         </connector>
                     </connectors>
                     <webAppConfig>
-                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webAppConfig>
                 </configuration>
             </plugin>
-    
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>keytool-maven-plugin</artifactId>
@@ -86,7 +86,7 @@
                     <keyalg>RSA</keyalg>
                 </configuration>
             </plugin>
-    
+
             <plugin>
                 <groupId>org.zeroturnaround</groupId>
                 <artifactId>jrebel-maven-plugin</artifactId>
@@ -132,7 +132,7 @@
             <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-contentmanagement-module</artifactId>
         </dependency>
-    
+
         <dependency>
             <groupId>org.broadleafcommerce</groupId>
             <artifactId>broadleaf-framework-web</artifactId>
@@ -160,6 +160,10 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
     </dependencies>
 </project>

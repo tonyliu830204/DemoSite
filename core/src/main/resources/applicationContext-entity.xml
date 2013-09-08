@@ -20,5 +20,5 @@
         
         <!-- This file will contain bean overrides for extensions of Broadleaf entities -->
         <!-- For example, if you have a custom class that extends CustomerImpl, you would note that here -->
-        
+        <bean id="com.appfactory.domain.Cell" class="com.appfactory.domain.CellImpl" scope="prototype" />
 </beans>
