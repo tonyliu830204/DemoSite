@@ -1,13 +1,16 @@
 package com.mycompany.api.endpoint.appfactory.wrappers;
 
 import org.broadleafcommerce.core.catalog.domain.Product;
+import org.broadleafcommerce.core.catalog.domain.Sku;
 import org.broadleafcommerce.core.web.api.wrapper.APIWrapper;
 import org.broadleafcommerce.core.web.api.wrapper.BaseWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,8 +20,8 @@ import javax.xml.bind.annotation.XmlType;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement(name = "product")
-@XmlType(name = "myproduct")
-public class ProductWrapper extends BaseWrapper implements APIWrapper<Product> {
+//@XmlType(name = "myproduct")
+public class AppFactoryProductWrapper extends BaseWrapper implements APIWrapper<Product> {
 
     @XmlElement
     protected Long id;
@@ -32,12 +35,22 @@ public class ProductWrapper extends BaseWrapper implements APIWrapper<Product> {
     @XmlElement
     protected String iconURL;
 
+    @XmlElement(name = "price")
+    private String priceDesc;
 
-    private String price;
+    @XmlElementWrapper(name = "sizes")
+    List<ProductSizeWrapper> sizes = new ArrayList<ProductSizeWrapper>();
 
     @Override
     public void wrapDetails(Product model, HttpServletRequest request) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        wrapSummary(model, request);
+        if (model.getSkus() != null && model.getSkus().size() > 0) {
+            for (Sku sku : model.getSkus()) {
+                ProductSizeWrapper size = context.getBean(ProductSizeWrapper.class);
+                size.wrapDetails(sku, request);
+                sizes.add(size);
+            }
+        }
     }
 
     @Override
@@ -47,17 +60,12 @@ public class ProductWrapper extends BaseWrapper implements APIWrapper<Product> {
         this.desc = model.getDescription();
         this.iconURL = model.getMedia().get("primary").getUrl();
         if (model.getDefaultSku().getSalePrice() != null) {
-            this.price = model.getDefaultSku().getSalePrice().getAmount().toString();
+            this.priceDesc = model.getDefaultSku().getSalePrice().getAmount().toString();
         } else {
-            this.price = "0";
+            this.priceDesc = "0";
         }
+
+
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
 }

@@ -23,12 +23,12 @@ public class ProductsWrapper extends BaseWrapper implements APIWrapper<List<Prod
 
     @XmlElementWrapper(name = "products")
     @XmlElement(name = "product")
-    private List<ProductWrapper> products = new ArrayList<ProductWrapper>();
+    private List<AppFactoryProductWrapper> products = new ArrayList<AppFactoryProductWrapper>();
 
     @Override
     public void wrapDetails(List<Product> products, HttpServletRequest request) {
         for (Product p : products) {
-            ProductWrapper wrapper = context.getBean(ProductWrapper.class);
+            AppFactoryProductWrapper wrapper = context.getBean(AppFactoryProductWrapper.class);
             wrapper.wrapSummary(p, request);
 
             this.products.add(wrapper);

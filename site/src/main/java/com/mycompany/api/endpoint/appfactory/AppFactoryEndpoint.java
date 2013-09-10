@@ -1,10 +1,12 @@
 package com.mycompany.api.endpoint.appfactory;
 
+import com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryProductWrapper;
 import com.mycompany.api.endpoint.appfactory.wrappers.CategoriesWrapper;
 import com.mycompany.api.endpoint.appfactory.wrappers.ProductsWrapper;
 import org.broadleafcommerce.core.catalog.domain.Category;
 import org.broadleafcommerce.core.catalog.domain.Product;
 import org.broadleafcommerce.core.web.api.endpoint.catalog.CatalogEndpoint;
+import org.broadleafcommerce.core.web.api.wrapper.ProductWrapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +51,15 @@ public class AppFactoryEndpoint extends CatalogEndpoint {
         ProductsWrapper wrapper = context.getBean(ProductsWrapper.class);
         wrapper.wrapSummary(products, request);
 
+        return wrapper;
+    }
+
+    @GET
+    @Path("{id}")
+    public AppFactoryProductWrapper getProductDetail(@Context HttpServletRequest request, @PathParam("id") Long id) {
+        Product product = catalogService.findProductById(id);
+        AppFactoryProductWrapper wrapper = context.getBean(AppFactoryProductWrapper.class);
+        wrapper.wrapDetails(product, request);
         return wrapper;
     }
 }

@@ -25,12 +25,12 @@ public class CategoriesWrapper extends BaseWrapper implements APIWrapper<List<Ca
 
     @XmlElement(name = "category")
     @XmlElementWrapper(name = "categories")
-    protected List<CategoryWrapper> categories = new ArrayList<CategoryWrapper>();
+    protected List<AppFactoryCategoryWrapper> categories = new ArrayList<AppFactoryCategoryWrapper>();
 
     @Override
     public void wrapDetails(List<Category> model, HttpServletRequest request) {
         for (Category c : model) {
-            CategoryWrapper wrapper = context.getBean(CategoryWrapper.class);
+            AppFactoryCategoryWrapper wrapper = context.getBean(AppFactoryCategoryWrapper.class);
             wrapper.wrapSummary(c, request);
             this.categories.add(wrapper);
         }

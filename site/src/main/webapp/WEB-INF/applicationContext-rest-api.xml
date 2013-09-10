@@ -54,7 +54,8 @@
 
 
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ProductsWrapper" scope="prototype" />
-    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ProductWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryProductWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CategoriesWrapper" scope="prototype" />
-    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CategoryWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryCategoryWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ProductSizeWrapper" scope="prototype" />
 </beans>

@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement(name = "category")
-@XmlType(name = "APPFACTORY_CATEGORY")
-public class CategoryWrapper extends BaseWrapper implements APIWrapper<Category> {
+//@XmlType(name = "APPFACTORY_CATEGORY")
+public class AppFactoryCategoryWrapper extends BaseWrapper implements APIWrapper<Category> {
 
     @XmlElement
     protected String id;
