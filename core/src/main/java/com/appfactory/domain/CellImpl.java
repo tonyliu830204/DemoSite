@@ -31,13 +31,17 @@ public class CellImpl implements Cell, AdminMainEntity {
     @AdminPresentation(friendlyName = "ID", visibility = VisibilityEnum.HIDDEN_ALL)
     protected Long id;
 
-    @AdminPresentation(friendlyName = "Name", gridOrder = 1, columnWidth = "100px")
+    @AdminPresentation(friendlyName = "Name", gridOrder = 1, columnWidth = "100px", prominent = true)
     private String name;
 
     @ManyToOne(targetEntity = StaticAssetImpl.class)
     @JoinColumn(name = "MEDIA_ID")
     @AdminPresentation(friendlyName = "Image")
+    @AdminPresentationToOneLookup()
     private StaticAsset media;
+
+
+
 
 
     @Override

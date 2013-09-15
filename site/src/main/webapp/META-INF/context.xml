@@ -19,8 +19,8 @@
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
               username="sa"
               password=""
-              driverClassName="org.h2.Driver"
-              url="jdbc:h2:~/broadleaf"/>
+              driverClassName="org.hsqldb.jdbcDriver"
+              url="jdbc:hsqldb:hsql://localhost/broadleaf"/>
 
     <Resource name="jdbc/storage"
               auth="Container"
@@ -41,8 +41,8 @@
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
               username="sa"
               password=""
-              driverClassName="org.h2.Driver"
-              url="jdbc:h2:~/broadleaf"/>
+              driverClassName="org.hsqldb.jdbcDriver"
+              url="jdbc:hsqldb:hsql://localhost/broadleaf"/>
 
     <Resource name="jdbc/secure"
               auth="Container"
@@ -63,6 +63,6 @@
               jdbcInterceptors="org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer"
               username="sa"
               password=""
-              driverClassName="org.h2.Driver"
-              url="jdbc:h2:~/broadleaf"/>
+              driverClassName="org.hsqldb.jdbcDriver"
+              url="jdbc:hsqldb:hsql://localhost/broadleaf"/>
 </Context>
