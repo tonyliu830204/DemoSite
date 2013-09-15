@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class AppFactoryEndpoint extends CatalogEndpoint {
     @GET
     @Path("categories")
     public CategoriesWrapper getAllCategories(@Context HttpServletRequest request) {
-        List<Category> categories = catalogService.findAllSubCategories(catalogService.findCategoryById(2L));
+        List<Category> categories = catalogService.findActiveSubCategoriesByCategory(catalogService.findCategoryById(2L));
         CategoriesWrapper wrapper = context.getBean(CategoriesWrapper.class);
         wrapper.wrapSummary(categories, request);
         return wrapper;
@@ -46,7 +47,7 @@ public class AppFactoryEndpoint extends CatalogEndpoint {
     public ProductsWrapper findProductsByCategory(@Context HttpServletRequest request, @PathParam("id") Long id) {
 
         Category category = catalogService.findCategoryById(id);
-        List<Product> products = catalogService.findProductsForCategory(category);
+        List<Product> products = catalogService.findActiveProductsByCategory(category, new Date());
 
         ProductsWrapper wrapper = context.getBean(ProductsWrapper.class);
         wrapper.wrapSummary(products, request);
