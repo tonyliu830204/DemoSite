@@ -8,13 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * Created with IntelliJ IDEA.
- * User: liweinan
- * Date: 13-9-15
- * Time: PM1:00
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @AdminPresentationClass(friendlyName = "PostCategory")
 public class PostCategoryImpl implements PostCategory, AdminMainEntity {
@@ -23,7 +16,7 @@ public class PostCategoryImpl implements PostCategory, AdminMainEntity {
     @GeneratedValue
     private Long id;
 
-    @AdminPresentation(prominent = true)
+    @AdminPresentation(prominent = true, friendlyName = "name")
     private String name;
 
 
