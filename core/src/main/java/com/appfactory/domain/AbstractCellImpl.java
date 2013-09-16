@@ -23,8 +23,9 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "BLC_APP_CELL")
-@AdminPresentationClass(friendlyName = "CategoryImpl_baseCategory")
-public class CellImpl implements Cell, AdminMainEntity {
+@Inheritance(strategy = InheritanceType.JOINED)
+@AdminPresentationClass(friendlyName = "Cell")
+public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
 
     @Id
     @GeneratedValue

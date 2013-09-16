@@ -97,7 +97,7 @@
 
         <echo message="Starting Data Base..." />
         <java fork="true"  spawn="true" classname="org.hsqldb.Server" classpathref="build.runtime.classpath">
-            <arg  line="-database.0 file:data/broadleaf -dbname.0 broadleaf"/>
+            <arg  line="-database.0 file:~/data/broadleaf -dbname.0 broadleaf"/>
         </java>
     </target>
 

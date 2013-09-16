@@ -6,10 +6,14 @@
              
     <persistence-unit name="blPU" transaction-type="RESOURCE_LOCAL">
         <non-jta-data-source>jdbc/web</non-jta-data-source>
-        <class>com.appfactory.domain.CellImpl</class>
+        <class>com.appfactory.domain.AbstractCellImpl</class>
+        <class>com.appfactory.domain.PostCellImpl</class>
+        <class>com.appfactory.domain.PostCategoryCellImpl</class>
+        <class>com.appfactory.domain.PhoneInfoCellImpl</class>
+
         <class>com.appfactory.domain.PostCategoryImpl</class>
         <class>com.appfactory.domain.PostImpl</class>
-        <class>org.broadleafcommerce.common.media.domain.MediaImpl</class>
+        <class>com.appfactory.domain.PhoneInfoImpl</class>
         <exclude-unlisted-classes/>
     </persistence-unit>
     
