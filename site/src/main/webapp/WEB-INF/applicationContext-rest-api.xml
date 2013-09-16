@@ -58,4 +58,5 @@
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CategoriesWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryCategoryWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ProductSizeWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.AppConfigWrapper" scope="prototype" />
 </beans>

@@ -9,7 +9,7 @@
         <class>com.appfactory.domain.CellImpl</class>
         <class>com.appfactory.domain.PostCategoryImpl</class>
         <class>com.appfactory.domain.PostImpl</class>
-        <class>org.broadleafcommerce.common.media.domain.MediaImpl</class>
+        <class>com.appfactory.domain.LayoutImpl</class>
         <exclude-unlisted-classes/>
     </persistence-unit>
     
