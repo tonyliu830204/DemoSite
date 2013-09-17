@@ -16,4 +16,8 @@ import javax.persistence.Entity;
 public class PhoneInfoCellImpl extends AbstractCellImpl implements PhoneInfoCell {
 
 
+    @Override
+    public String getType() {
+        return "CONTACT_INFO";
+    }
 }

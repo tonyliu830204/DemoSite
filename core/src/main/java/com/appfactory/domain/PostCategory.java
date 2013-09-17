@@ -1,6 +1,7 @@
 package com.appfactory.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,4 +19,8 @@ public interface PostCategory extends Serializable{
     Long getId();
 
     void setId(Long id);
+
+    List<Post> getPosts();
+
+    void setPosts(List<Post> posts);
 }

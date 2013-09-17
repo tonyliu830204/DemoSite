@@ -1,18 +1,23 @@
 package com.appfactory.domain;
 
-import org.broadleafcommerce.cms.file.domain.ImageStaticAsset;
-import org.broadleafcommerce.cms.file.domain.StaticAsset;
-import org.broadleafcommerce.cms.file.domain.StaticAssetImpl;
 import org.broadleafcommerce.common.admin.domain.AdminMainEntity;
 import org.broadleafcommerce.common.media.domain.Media;
 import org.broadleafcommerce.common.media.domain.MediaImpl;
 import org.broadleafcommerce.common.presentation.AdminPresentation;
 import org.broadleafcommerce.common.presentation.AdminPresentationClass;
-import org.broadleafcommerce.common.presentation.AdminPresentationToOneLookup;
-import org.broadleafcommerce.common.presentation.client.LookupType;
+import org.broadleafcommerce.common.presentation.AdminPresentationMap;
+import org.broadleafcommerce.common.presentation.AdminPresentationMapKey;
+import org.broadleafcommerce.common.presentation.client.SupportedFieldType;
 import org.broadleafcommerce.common.presentation.client.VisibilityEnum;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,6 +30,14 @@ import javax.persistence.*;
 @Table(name = "BLC_APP_CELL")
 @Inheritance(strategy = InheritanceType.JOINED)
 @AdminPresentationClass(friendlyName = "Cell")
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "FIND_ALL_CELL",
+                        query = "SELECT c FROM AbstractCellImpl as c"
+                )
+        }
+)
 public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
 
     @Id
@@ -35,14 +48,22 @@ public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
     @AdminPresentation(friendlyName = "Name", gridOrder = 1, columnWidth = "100px", prominent = true)
     private String name;
 
-    @ManyToOne(targetEntity = StaticAssetImpl.class)
-    @JoinColumn(name = "MEDIA_ID")
-    @AdminPresentation(friendlyName = "Image")
-    @AdminPresentationToOneLookup()
-    private StaticAsset media;
-
-
-
+    @ManyToMany(targetEntity = MediaImpl.class)
+    @JoinTable(name = "BLC_APP_CELL_MEDIA_MAP", inverseJoinColumns = @JoinColumn(name = "MEDIA_ID", referencedColumnName = "MEDIA_ID"))
+    @MapKeyColumn(name = "MAP_KEY")
+    @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="blStandardElements")
+    @BatchSize(size = 50)
+    @AdminPresentationMap(
+            friendlyName = "Picture",
+            keyPropertyFriendlyName = "SkuImpl_Sku_Media_Key",
+            deleteEntityUponRemove = true,
+            mediaField = "url",
+            keys = {
+                    @AdminPresentationMapKey(keyName = "primary", friendlyKeyName = "mediaPrimary"),
+            }
+    )
+    private Map<String, Media> medias = new HashMap<String , Media>(10);
 
 
     @Override
@@ -71,12 +92,17 @@ public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
     }
 
     @Override
-    public StaticAsset getMedia() {
-        return media;
+    public String getIconUrl() {
+        return this.getMedias().get("primary").getUrl();
     }
 
     @Override
-    public void setMedia(StaticAsset media) {
-        this.media = media;
+    public Map<String, Media> getMedias() {
+        return medias;
+    }
+
+    @Override
+    public void setMedias(Map<String, Media> medias) {
+        this.medias = medias;
     }
 }

@@ -32,4 +32,9 @@ public class PostCategoryCellImpl extends AbstractCellImpl implements PostCatego
     public void setCategory(PostCategory category) {
         this.category = category;
     }
+
+    @Override
+    public String getType() {
+        return "POST_CATEGORY";
+    }
 }

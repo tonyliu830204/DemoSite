@@ -32,4 +32,9 @@ public class PostCellImpl extends AbstractCellImpl implements PostCell {
     public void setPost(Post post) {
         this.post = post;
     }
+
+    @Override
+    public String getType() {
+        return "POST";
+    }
 }

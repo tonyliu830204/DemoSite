@@ -5,6 +5,7 @@ import org.broadleafcommerce.cms.file.domain.StaticAsset;
 import org.broadleafcommerce.common.media.domain.Media;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +23,11 @@ public interface Cell extends Serializable {
 
     void setName(String name);
 
-    StaticAsset getMedia();
+    String getType();
 
-    void setMedia(StaticAsset media);
+    String getIconUrl();
+
+    Map<String, Media> getMedias();
+
+    void setMedias(Map<String, Media> medias);
 }

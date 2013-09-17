@@ -22,7 +22,7 @@
 
     <property name="runtime.environment" value="development"/>
 
-    <target name="jetty-demo" depends="start-db">
+    <target name="jetty-demo">
         <delete dir="war/WEB-INF/lib"/>
         <artifact:mvn mavenHome="${maven.home}" fork="true">
             <jvmarg value="-XX:MaxPermSize=512M"/>
