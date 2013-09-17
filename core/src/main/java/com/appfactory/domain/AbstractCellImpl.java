@@ -3,19 +3,15 @@ package com.appfactory.domain;
 import org.broadleafcommerce.common.admin.domain.AdminMainEntity;
 import org.broadleafcommerce.common.media.domain.Media;
 import org.broadleafcommerce.common.media.domain.MediaImpl;
-import org.broadleafcommerce.common.presentation.AdminPresentation;
-import org.broadleafcommerce.common.presentation.AdminPresentationClass;
-import org.broadleafcommerce.common.presentation.AdminPresentationMap;
-import org.broadleafcommerce.common.presentation.AdminPresentationMapKey;
+import org.broadleafcommerce.common.presentation.*;
 import org.broadleafcommerce.common.presentation.client.SupportedFieldType;
 import org.broadleafcommerce.common.presentation.client.VisibilityEnum;
-import org.hibernate.annotations.*;
+import org.broadleafcommerce.core.catalog.domain.ProductImpl;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,19 +47,28 @@ public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
     @ManyToMany(targetEntity = MediaImpl.class)
     @JoinTable(name = "BLC_APP_CELL_MEDIA_MAP", inverseJoinColumns = @JoinColumn(name = "MEDIA_ID", referencedColumnName = "MEDIA_ID"))
     @MapKeyColumn(name = "MAP_KEY")
-    @Cascade(value={org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region="blStandardElements")
+    @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
+    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "blStandardElements")
     @BatchSize(size = 50)
-    @AdminPresentationMap(
-            friendlyName = "Picture",
-            keyPropertyFriendlyName = "SkuImpl_Sku_Media_Key",
-            deleteEntityUponRemove = true,
-            mediaField = "url",
-            keys = {
-                    @AdminPresentationMapKey(keyName = "primary", friendlyKeyName = "mediaPrimary"),
+//    @AdminPresentationMap(
+//            friendlyName = "Picture",
+//            keyPropertyFriendlyName = "SkuImpl_Sku_Media_Key",
+//            deleteEntityUponRemove = true,
+//            mediaField = "url",
+//            keys = {
+//                    @AdminPresentationMapKey(keyName = "primary", friendlyKeyName = "mediaPrimary"),
+//            }
+//    )
+    @AdminPresentationMapFields(
+            mapDisplayFields = {
+                    @AdminPresentationMapField(
+                            fieldName = "primary",
+                            fieldPresentation = @AdminPresentation(fieldType = SupportedFieldType.MEDIA,
+                                    friendlyName = "SkuImpl_Primary_Media")
+                    )
             }
     )
-    private Map<String, Media> medias = new HashMap<String , Media>(10);
+    private Map<String, Media> medias = new HashMap<String, Media>(10);
 
 
     @Override
