@@ -14,6 +14,7 @@
         <class>com.appfactory.domain.PostCategoryImpl</class>
         <class>com.appfactory.domain.PostImpl</class>
         <class>com.appfactory.domain.PhoneInfoImpl</class>
+        <class>com.appfactory.domain.LayoutImpl</class>
         <exclude-unlisted-classes/>
     </persistence-unit>
     
