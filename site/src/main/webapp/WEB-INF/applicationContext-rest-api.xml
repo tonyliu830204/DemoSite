@@ -60,4 +60,6 @@
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ProductSizeWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.AppConfigWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CellWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PromotionsWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PromotionWrapper" scope="prototype" />
 </beans>

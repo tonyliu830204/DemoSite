@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+                 version="2.0">
+
+    <named-query name="FIND_ALL_FEATURED_PRODUCTS">
+        <description>find all featured product</description>
+        <query>
+            SELECT
+                p
+            FROM
+                ProductImpl as p
+            WHERE
+                p.isFeaturedProduct = true
+                AND p.defaultSku.activeStartDate &lt;= :currentDate
+                AND (p.defaultSku.activeEndDate &gt; :currentDate OR p.defaultSku.activeEndDate is null)
+                AND (p.archiveStatus.archived IS NULL OR p.archiveStatus.archived = 'N')
+        </query>
+    </named-query>
+
+    <named-query name="FIND_ALL_PROMOTABLE_CATEGORIES">
+        <query>
+            select
+                c
+            from
+                CategoryImpl as c inner join c.categoryAttributes as attr
+            where
+                attr.name = 'promotionMessage'
+            and c.activeStartDate &lt;= :currentDate
+            and (c.activeEndDate &gt; :currentDate or c.activeEndDate is null)
+            and (c.archiveStatus.archived is null or c.archiveStatus.archived = 'N')
+        </query>
+    </named-query>
+
+</entity-mappings>

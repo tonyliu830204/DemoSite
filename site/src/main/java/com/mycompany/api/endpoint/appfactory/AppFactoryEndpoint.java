@@ -1,15 +1,17 @@
 package com.mycompany.api.endpoint.appfactory;
 
+import com.appfactory.service.PromotionService;
 import com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryProductWrapper;
 import com.mycompany.api.endpoint.appfactory.wrappers.CategoriesWrapper;
 import com.mycompany.api.endpoint.appfactory.wrappers.ProductsWrapper;
+import com.mycompany.api.endpoint.appfactory.wrappers.PromotionsWrapper;
 import org.broadleafcommerce.core.catalog.domain.Category;
 import org.broadleafcommerce.core.catalog.domain.Product;
 import org.broadleafcommerce.core.web.api.endpoint.catalog.CatalogEndpoint;
-import org.broadleafcommerce.core.web.api.wrapper.ProductWrapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -31,6 +33,8 @@ import java.util.List;
 @Consumes(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class AppFactoryEndpoint extends CatalogEndpoint {
 
+    @Resource(name = "promotionService")
+    private PromotionService promotionService;
 
     @GET
     @Path("categories")
@@ -62,5 +66,21 @@ public class AppFactoryEndpoint extends CatalogEndpoint {
         AppFactoryProductWrapper wrapper = context.getBean(AppFactoryProductWrapper.class);
         wrapper.wrapDetails(product, request);
         return wrapper;
+    }
+
+    @GET
+    @Path("promotions")
+    public PromotionsWrapper getPromotions(@Context HttpServletRequest request) {
+
+        List<Product> featuredProducts = promotionService.findFeaturedProducts();
+
+        PromotionsWrapper promotionsWrapper = context.getBean(PromotionsWrapper.class);
+        promotionsWrapper.wrapProducts(featuredProducts);
+
+
+        List<Category> promotableCategories = promotionService.findPromotableCategories();
+        promotionsWrapper.wrapCategories(promotableCategories);
+
+        return promotionsWrapper;
     }
 }
