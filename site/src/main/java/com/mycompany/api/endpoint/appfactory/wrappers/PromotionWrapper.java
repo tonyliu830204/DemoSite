@@ -53,7 +53,11 @@ public class PromotionWrapper {
     }
 
     public void wrap(Product product) {
-        this.text = product.getDescription();
+        if (product.getProductAttributes() != null && product.getProductAttributes().containsKey("promotionMessage")) {
+            this.text = product.getProductAttributes().get("promotionMessage").getValue();
+        } else {
+            this.text = product.getDescription();
+        }
         if (product.getMedia() != null && product.getMedia().size() > 0) {
             this.iconURL = product.getMedia().get("primary").getUrl();
         }

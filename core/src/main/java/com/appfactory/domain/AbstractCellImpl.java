@@ -50,15 +50,6 @@ public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
     @Cascade(value = {org.hibernate.annotations.CascadeType.ALL, org.hibernate.annotations.CascadeType.DELETE_ORPHAN})
     @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "blStandardElements")
     @BatchSize(size = 50)
-//    @AdminPresentationMap(
-//            friendlyName = "Picture",
-//            keyPropertyFriendlyName = "SkuImpl_Sku_Media_Key",
-//            deleteEntityUponRemove = true,
-//            mediaField = "url",
-//            keys = {
-//                    @AdminPresentationMapKey(keyName = "primary", friendlyKeyName = "mediaPrimary"),
-//            }
-//    )
     @AdminPresentationMapFields(
             mapDisplayFields = {
                     @AdminPresentationMapField(
