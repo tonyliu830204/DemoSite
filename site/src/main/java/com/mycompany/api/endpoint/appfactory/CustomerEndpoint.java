@@ -1,10 +1,14 @@
 package com.mycompany.api.endpoint.appfactory;
 
+import com.appfactory.exception.RegisterFailedException;
+import com.appfactory.service.AFCustomerService;
+import com.mycompany.api.endpoint.appfactory.wrappers.CustomerRegistrationWrapper;
 import org.broadleafcommerce.core.web.api.wrapper.CustomerWrapper;
 import org.broadleafcommerce.profile.core.domain.Customer;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -27,15 +31,31 @@ import javax.ws.rs.core.MediaType;
 @Consumes(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 public class CustomerEndpoint extends org.broadleafcommerce.core.web.api.endpoint.customer.CustomerEndpoint {
 
+    @Resource(name = "afCustomerService")
+    private AFCustomerService afCustomerService;
+
     @Path("register")
     @POST
-    public boolean register(@Context HttpServletRequest request, CustomerWrapper customerWrapper, String password, String passwordConfirm) {
+    public CustomerWrapper register(@Context HttpServletRequest request, CustomerRegistrationWrapper wrapper) {
 
-        Customer customer = customer = customerWrapper.unwrap(request, context);
+        Customer customer = customerService.createNewCustomer();
 
-        customerService.registerCustomer(customer, password, passwordConfirm);
+        wrapper.populate(customer);
+        String password = wrapper.getPassword();
+        String passwordConfirm = wrapper.getPasswordConfirm();
 
-        return true;
+        try {
+            customer = afCustomerService.register(customer, password, passwordConfirm);
+        } catch (RegisterFailedException e) {
+
+        }
+
+//        customerService.registerCustomer(customer, password, passwordConfirm);
+
+        CustomerWrapper response = context.getBean(CustomerWrapper.class);
+        response.wrapSummary(customer, request);
+        return response;
+
     }
 
 //    public boolean changePassword(@Context HttpServletRequest request, PasswordChange passwordChange) {

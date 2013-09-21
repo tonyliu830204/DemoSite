@@ -62,4 +62,5 @@
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CellWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PromotionsWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PromotionWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CustomerRegistrationWrapper" scope="prototype" />
 </beans>

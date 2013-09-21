@@ -22,7 +22,6 @@
         <!-- For example, if you have a custom class that extends CustomerImpl, you would note that here -->
         <!--<bean id="com.appfactory.domain.PostCategory" class="com.appfactory.domain.PostCategoryImpl" scope="prototype" />-->
         <!--<bean id="com.appfactory.domain.Post" class="com.appfactory.domain.PostImpl" scope="prototype" />-->
-    <!---->
         <!--<bean id="com.appfactory.domain.Cell" class="com.appfactory.domain.AbstractCellImpl" abstract="true" scope="prototype" />-->
         <!--<bean id="com.appfactory.domain.PostCell" class="com.appfactory.domain.PostCellImpl" scope="prototype" />-->
         <!--<bean id="com.appfactory.domain.PostCategoryCell" class="com.appfactory.domain.PostCategoryCellImpl" scope="prototype" />-->
