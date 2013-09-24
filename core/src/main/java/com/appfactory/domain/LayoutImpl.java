@@ -28,7 +28,7 @@ public class LayoutImpl implements Layout {
     @GeneratedValue
     private Long id;
 
-    @AdminPresentation(friendlyName = "Type", prominent = true)
+    @AdminPresentation(friendlyName = "LaayoutImpl_Type", prominent = true)
     @AdminPresentationDataDrivenEnumeration(
             optionFilterParams = {
                     @OptionFilterParam(
