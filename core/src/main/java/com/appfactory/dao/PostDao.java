@@ -2,6 +2,8 @@ package com.appfactory.dao;
 
 import com.appfactory.domain.Post;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: wli
@@ -13,4 +15,5 @@ public interface PostDao {
 
     Post findById(Long id);
 
+    List<Post> findByCategory(Long id);
 }

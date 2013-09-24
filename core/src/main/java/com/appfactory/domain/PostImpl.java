@@ -15,6 +15,12 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "FIND_POST_BY_CATEGORY",
+                query = "select p from PostImpl as p where p.category.id = :id"
+        )
+})
 public class PostImpl implements Post, AdminMainEntity {
 
 
@@ -34,7 +40,6 @@ public class PostImpl implements Post, AdminMainEntity {
     @AdminPresentation(gridOrder = 2, friendlyName = "Category", prominent = true)
     @AdminPresentationToOneLookup(lookupDisplayProperty = "name")
     private PostCategory category;
-
 
 
     @Override
