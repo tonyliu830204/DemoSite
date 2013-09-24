@@ -22,7 +22,7 @@ import java.util.List;
 public class PostsWrapper extends BaseWrapper implements APIWrapper<List<Post>> {
 
     @XmlElementWrapper(name = "posts")
-    @XmlElement
+    @XmlElement(name = "post")
     private List<PostWrapper> posts = new ArrayList<PostWrapper>();
 
 

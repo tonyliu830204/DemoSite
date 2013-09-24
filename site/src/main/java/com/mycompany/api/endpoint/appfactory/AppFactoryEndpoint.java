@@ -39,7 +39,7 @@ public class AppFactoryEndpoint extends CatalogEndpoint {
     @GET
     @Path("categories")
     public CategoriesWrapper getAllCategories(@Context HttpServletRequest request) {
-        List<Category> categories = catalogService.findActiveSubCategoriesByCategory(catalogService.findCategoryById(2L));
+        List<Category> categories = catalogService.findAllSubCategories(catalogService.findCategoryById(2L));
         CategoriesWrapper wrapper = context.getBean(CategoriesWrapper.class);
         wrapper.wrapSummary(categories, request);
         return wrapper;

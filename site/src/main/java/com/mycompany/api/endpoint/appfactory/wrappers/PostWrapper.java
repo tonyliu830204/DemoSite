@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Time: 1:04 PM
  * To change this template use File | Settings | File Templates.
  */
-@XmlRootElement
+@XmlRootElement(name = "post")
 public class PostWrapper extends BaseWrapper implements APIWrapper<Post> {
 
     @XmlElement
