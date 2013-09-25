@@ -96,7 +96,7 @@
                 <entry key="checkout/" value="layout/checkoutLayout" />
                 <entry key="checkout/confirmation" value="layout/fullPageNoNavLayout" />
                 <entry key="layout/" value="NONE" />
-                <entry key="post/" value="NONE" />
+                <entry key="appfactory/" value="NONE" />
             </map>
         </property>
     </bean>

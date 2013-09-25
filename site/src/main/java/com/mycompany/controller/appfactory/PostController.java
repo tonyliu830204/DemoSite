@@ -1,4 +1,4 @@
-package com.mycompany.controller.post;
+package com.mycompany.controller.appfactory;
 
 import com.appfactory.dao.PostDao;
 import com.appfactory.domain.Post;
@@ -28,7 +28,7 @@ public class PostController {
         if (post != null) {
             model.addAttribute("html", post.getContent());
         }
-        return "post/post";
+        return "appfactory/headless";
     }
 
 }

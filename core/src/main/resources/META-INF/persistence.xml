@@ -15,7 +15,7 @@
         <class>com.appfactory.domain.PostImpl</class>
         <class>com.appfactory.domain.PhoneInfoImpl</class>
         <class>com.appfactory.domain.LayoutImpl</class>
-
+        <class>com.appfactory.domain.CompanyInfoImpl</class>
 
         <mapping-file>/config/appfactory/domain/Promotion.orm.xml</mapping-file>
         <exclude-unlisted-classes/>

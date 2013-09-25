@@ -65,4 +65,6 @@
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.CustomerRegistrationWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PostsWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PostWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ContactInfoWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ContactInfosWrapper" scope="prototype" />
 </beans>

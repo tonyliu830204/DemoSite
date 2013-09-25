@@ -13,4 +13,8 @@ public interface PhoneInfo extends Serializable {
     String getNumber();
 
     void setNumber(String number);
+
+    String getName();
+
+    void setName(String name);
 }

@@ -3,9 +3,7 @@ package com.appfactory.domain;
 import org.broadleafcommerce.common.presentation.AdminPresentation;
 import org.broadleafcommerce.common.presentation.AdminPresentationClass;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,6 +14,14 @@ import javax.persistence.Id;
  */
 @Entity
 @AdminPresentationClass(friendlyName = "Phone Info")
+@NamedQueries(
+        {
+                @NamedQuery(
+                        name = "FIND_ALL_PHONE_INFO",
+                        query = "select p from PhoneInfoImpl as p order by p.id"
+                )
+        }
+)
 public class PhoneInfoImpl implements PhoneInfo {
 
     @Id
@@ -36,5 +42,15 @@ public class PhoneInfoImpl implements PhoneInfo {
     @Override
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }
