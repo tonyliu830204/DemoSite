@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "BLC_APP_MENUPAGE_LAYOUT")
-@AdminPresentationClass(friendlyName = "Layout")
+@AdminPresentationClass(friendlyName = "LayoutImpl")
 @NamedQueries({
         @NamedQuery(
                 name = "FIND_DEFAULT_LAYOUT",
@@ -28,7 +28,7 @@ public class LayoutImpl implements Layout {
     @GeneratedValue
     private Long id;
 
-    @AdminPresentation(friendlyName = "LaayoutImpl_Type", prominent = true)
+    @AdminPresentation(friendlyName = "LayoutImpl_Type", prominent = true)
     @AdminPresentationDataDrivenEnumeration(
             optionFilterParams = {
                     @OptionFilterParam(

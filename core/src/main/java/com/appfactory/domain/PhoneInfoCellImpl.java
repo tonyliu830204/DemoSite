@@ -12,7 +12,7 @@ import javax.persistence.Entity;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@AdminPresentationClass(friendlyName = "PhoneInfoCell")
+@AdminPresentationClass(friendlyName = "PhoneInfoCellImpl")
 public class PhoneInfoCellImpl extends AbstractCellImpl implements PhoneInfoCell {
 
 

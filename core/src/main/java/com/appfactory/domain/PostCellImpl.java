@@ -15,12 +15,12 @@ import javax.persistence.ManyToOne;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@AdminPresentationClass(friendlyName="Post Cell")
+@AdminPresentationClass(friendlyName="PostCellImpl")
 public class PostCellImpl extends AbstractCellImpl implements PostCell {
 
 
     @ManyToOne(targetEntity = PostImpl.class)
-    @AdminPresentation(friendlyName = "Post")
+    @AdminPresentation(friendlyName = "PostCellImpl_Post")
     @AdminPresentationToOneLookup()
     private Post post;
 

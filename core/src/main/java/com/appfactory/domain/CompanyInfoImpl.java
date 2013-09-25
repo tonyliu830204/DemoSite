@@ -14,7 +14,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "BLC_APP_COMPANY_INFO")
-@AdminPresentationClass(friendlyName = "APPFACTORY_COMPANYINFO")
+@AdminPresentationClass(friendlyName = "CompanyInfoImpl")
 @NamedQueries({
         @NamedQuery(
                 name = "FIND_DEFAULT_COMPANYINFO",
@@ -29,7 +29,7 @@ public class CompanyInfoImpl implements CompanyInfo {
 
 
     @Lob
-    @AdminPresentation(friendlyName = "APPFACTORY_COMPANYINFO_CONTENT", prominent = true)
+    @AdminPresentation(friendlyName = "CompanyInfoImpl_content", prominent = true)
     private String content;
 
     public String getContent() {

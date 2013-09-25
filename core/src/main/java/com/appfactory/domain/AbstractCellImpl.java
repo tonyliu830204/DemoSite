@@ -41,7 +41,7 @@ public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
     @AdminPresentation(friendlyName = "ID", visibility = VisibilityEnum.HIDDEN_ALL)
     protected Long id;
 
-    @AdminPresentation(friendlyName = "Name", gridOrder = 1, columnWidth = "100px", prominent = true)
+    @AdminPresentation(friendlyName = "Cell_Name", gridOrder = 1, columnWidth = "100px", prominent = true)
     private String name;
 
     @ManyToMany(targetEntity = MediaImpl.class)
@@ -55,7 +55,7 @@ public abstract class AbstractCellImpl implements Cell, AdminMainEntity {
                     @AdminPresentationMapField(
                             fieldName = "primary",
                             fieldPresentation = @AdminPresentation(fieldType = SupportedFieldType.MEDIA,
-                                    friendlyName = "SkuImpl_Primary_Media")
+                                    friendlyName = "Cell_Primary_Media")
                     )
             }
     )

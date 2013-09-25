@@ -13,7 +13,7 @@ import javax.persistence.*;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
-@AdminPresentationClass(friendlyName = "Phone Info")
+@AdminPresentationClass(friendlyName = "PhoneInfoImpl")
 @NamedQueries(
         {
                 @NamedQuery(
@@ -28,10 +28,10 @@ public class PhoneInfoImpl implements PhoneInfo {
     @GeneratedValue
     private Long id;
 
-    @AdminPresentation(friendlyName = "Name", gridOrder = 1, prominent = true)
+    @AdminPresentation(friendlyName = "PhoneInfoImpl_Name", gridOrder = 1, prominent = true)
     private String name;
 
-    @AdminPresentation(friendlyName = "Number", gridOrder = 2, prominent = true)
+    @AdminPresentation(friendlyName = "PhoneInfoImpl_Number", gridOrder = 2, prominent = true)
     private String number;
 
     @Override

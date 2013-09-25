@@ -12,18 +12,18 @@ import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity
-@AdminPresentationClass(friendlyName = "PostCategory")
+@AdminPresentationClass(friendlyName = "PostCategoryImpl")
 public class PostCategoryImpl implements PostCategory, AdminMainEntity {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    @AdminPresentation(prominent = true, friendlyName = "name")
+    @AdminPresentation(prominent = true, friendlyName = "PostCategoryImpl_name")
     private String name;
 
 
-    @AdminPresentationCollection(friendlyName = "Posts", manyToField = "category")
+    @AdminPresentationCollection(friendlyName = "PostCategoryImpl_Posts", manyToField = "category")
     @OneToMany(targetEntity = PostImpl.class, mappedBy = "category")
     private List<Post> posts;
 

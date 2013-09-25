@@ -2,6 +2,7 @@ package com.appfactory.domain;
 
 import org.broadleafcommerce.common.admin.domain.AdminMainEntity;
 import org.broadleafcommerce.common.presentation.AdminPresentation;
+import org.broadleafcommerce.common.presentation.AdminPresentationClass;
 import org.broadleafcommerce.common.presentation.AdminPresentationToOneLookup;
 import org.broadleafcommerce.common.presentation.client.SupportedFieldType;
 
@@ -21,6 +22,7 @@ import javax.persistence.*;
                 query = "select p from PostImpl as p where p.category.id = :id"
         )
 })
+@AdminPresentationClass(friendlyName = "PostImpl")
 public class PostImpl implements Post, AdminMainEntity {
 
 
@@ -29,15 +31,15 @@ public class PostImpl implements Post, AdminMainEntity {
     @AdminPresentation
     private Long id;
 
-    @AdminPresentation(prominent = true, friendlyName = "Title", gridOrder = 1)
+    @AdminPresentation(prominent = true, friendlyName = "PostImpl_Title", gridOrder = 1)
     private String title;
 
     @Lob
-    @AdminPresentation(fieldType = SupportedFieldType.HTML)
+    @AdminPresentation(fieldType = SupportedFieldType.HTML, friendlyName = "PostImpl_content")
     private String content;
 
     @ManyToOne(targetEntity = PostCategoryImpl.class)
-    @AdminPresentation(gridOrder = 2, friendlyName = "Category", prominent = true)
+    @AdminPresentation(gridOrder = 2, friendlyName = "PostImpl_Category", prominent = true)
     @AdminPresentationToOneLookup(lookupDisplayProperty = "name")
     private PostCategory category;
 

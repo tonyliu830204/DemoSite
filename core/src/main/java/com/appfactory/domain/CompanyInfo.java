@@ -1,5 +1,7 @@
 package com.appfactory.domain;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: wli
@@ -7,7 +9,7 @@ package com.appfactory.domain;
  * Time: 4:18 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface CompanyInfo {
+public interface CompanyInfo extends Serializable{
 
     String getContent();
 
