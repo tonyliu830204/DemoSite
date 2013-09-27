@@ -26,6 +26,9 @@ public class ProductSizeWrapper extends BaseWrapper implements APIWrapper<Sku> {
     @XmlElement
     private Double price;
 
+    @XmlElement
+    private String sku;
+
     @Override
     public void wrapDetails(Sku model, HttpServletRequest request) {
         if (model.getProductOptionValues() != null && model.getProductOptionValues().size() > 0) {
@@ -42,6 +45,7 @@ public class ProductSizeWrapper extends BaseWrapper implements APIWrapper<Sku> {
             } else {
                 price = model.getRetailPrice().getAmount().doubleValue();
             }
+            sku = model.getId().toString();
         }
     }
 
