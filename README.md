@@ -34,3 +34,31 @@ POST /api/v1/customers/register
 }
 ```
 
+### 3. Product
+#### 3.1 查看产品分类
+##### 3.1.1 REQUEST
+GET /api/v1/products/categories/{id}
+##### 3.1.2 RESPONSE
+```json
+{
+  "categories": [
+    {
+      "id":"123",
+      "name":"xxx",
+      "desc":"xxx",
+      "iconURL":"xxx"
+    }
+  ],
+  
+  "products": [
+	  {
+      "id": "",
+      "name": "",
+      "iconURL": "",
+      "desc": "",
+      "price": ""
+    }
+  ]
+}
+```
+
