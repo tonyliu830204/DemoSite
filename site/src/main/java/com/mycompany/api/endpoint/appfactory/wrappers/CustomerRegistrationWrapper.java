@@ -40,6 +40,7 @@ public class CustomerRegistrationWrapper extends BaseWrapper {
     public void populate(Customer model) {
         model.setFirstName(name);
         model.setEmailAddress(email);
+        model.setUsername(email);
     }
 
     public String getPassword() {
