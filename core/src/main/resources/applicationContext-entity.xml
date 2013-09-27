@@ -25,4 +25,6 @@
         <!--<bean id="com.appfactory.domain.Cell" class="com.appfactory.domain.AbstractCellImpl" abstract="true" scope="prototype" />-->
         <!--<bean id="com.appfactory.domain.PostCell" class="com.appfactory.domain.PostCellImpl" scope="prototype" />-->
         <!--<bean id="com.appfactory.domain.PostCategoryCell" class="com.appfactory.domain.PostCategoryCellImpl" scope="prototype" />-->
+
+        <bean id="com.appfactory.domain.Layout" class="com.appfactory.domain.LayoutImpl" scope="prototype" />
 </beans>

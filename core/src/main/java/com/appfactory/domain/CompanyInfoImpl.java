@@ -2,6 +2,7 @@ package com.appfactory.domain;
 
 import org.broadleafcommerce.common.presentation.AdminPresentation;
 import org.broadleafcommerce.common.presentation.AdminPresentationClass;
+import org.broadleafcommerce.common.presentation.client.SupportedFieldType;
 
 import javax.persistence.*;
 
@@ -24,12 +25,11 @@ import javax.persistence.*;
 public class CompanyInfoImpl implements CompanyInfo {
 
     @Id
-    @GeneratedValue
     private Long id;
 
 
     @Lob
-    @AdminPresentation(friendlyName = "CompanyInfoImpl_content", prominent = true)
+    @AdminPresentation(friendlyName = "CompanyInfoImpl_content", prominent = true, fieldType = SupportedFieldType.HTML)
     private String content;
 
     public String getContent() {

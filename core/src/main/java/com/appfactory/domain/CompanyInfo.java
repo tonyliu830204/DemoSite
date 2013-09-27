@@ -13,4 +13,6 @@ public interface CompanyInfo extends Serializable{
 
     String getContent();
 
+    void setId(Long id);
+
 }

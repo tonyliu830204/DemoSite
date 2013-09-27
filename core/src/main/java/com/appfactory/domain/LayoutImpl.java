@@ -25,7 +25,6 @@ import javax.persistence.*;
 public class LayoutImpl implements Layout {
 
     @Id
-    @GeneratedValue
     private Long id;
 
     @AdminPresentation(friendlyName = "LayoutImpl_Type", prominent = true)
