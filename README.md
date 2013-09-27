@@ -9,9 +9,13 @@ However, if you would like to utilize your own workspace or IDE configuration, y
 > Note: If you are going to fork this project, we recommend basing your work on the `master` branch, and not the develop branch. develop is our ongoing development branch and there are no guarantees of stability on it.
 
 ## API
-### Customer
+### 1. Common
+#### 1.1 Exception
+If a exception is thrown while processing the request, the server will return a 500 response containing a header 'ErrorCode'
 
-#### Request
+### 2. Customer
+
+#### 2.1 Request
 POST /api/v1/customers/register
 ```json
 {
@@ -21,7 +25,7 @@ POST /api/v1/customers/register
   "passwordConfirm":"xxx"
 }
 ```
-#### Response
+#### 2.2 Response
 ```json
 {
   "id":"123",
@@ -29,6 +33,4 @@ POST /api/v1/customers/register
   "email":"email"
 }
 ```
-#### Error
-Server will return a 500 response containing a header 'ErrorCode'
 
