@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -36,7 +37,7 @@ public class CustomerEndpoint extends org.broadleafcommerce.core.web.api.endpoin
 
     @Path("register")
     @POST
-    public CustomerWrapper register(@Context HttpServletRequest request, CustomerRegistrationWrapper wrapper) {
+    public CustomerWrapper register(@Context HttpServletRequest request, @Context HttpServletResponse response, CustomerRegistrationWrapper wrapper) {
 
         Customer customer = customerService.createNewCustomer();
 
@@ -47,14 +48,15 @@ public class CustomerEndpoint extends org.broadleafcommerce.core.web.api.endpoin
         try {
             customer = afCustomerService.register(customer, password, passwordConfirm);
         } catch (RegisterFailedException e) {
-
+            response.addHeader("ErrorCode", e.getMessage());
+            throw new RuntimeException();
         }
 
 //        customerService.registerCustomer(customer, password, passwordConfirm);
 
-        CustomerWrapper response = context.getBean(CustomerWrapper.class);
-        response.wrapSummary(customer, request);
-        return response;
+        CustomerWrapper result = context.getBean(CustomerWrapper.class);
+        result.wrapSummary(customer, request);
+        return result;
 
     }
 
