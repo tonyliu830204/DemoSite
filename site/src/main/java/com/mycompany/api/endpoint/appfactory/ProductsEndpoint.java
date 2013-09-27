@@ -3,8 +3,8 @@ package com.mycompany.api.endpoint.appfactory;
 import com.appfactory.service.PromotionService;
 import com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryProductWrapper;
 import com.mycompany.api.endpoint.appfactory.wrappers.CategoriesWrapper;
-import com.mycompany.api.endpoint.appfactory.wrappers.ProductsWrapper;
 import com.mycompany.api.endpoint.appfactory.wrappers.PromotionsWrapper;
+import com.mycompany.api.endpoint.appfactory.wrappers.SubCategoryWrapper;
 import org.broadleafcommerce.core.catalog.domain.Category;
 import org.broadleafcommerce.core.catalog.domain.Product;
 import org.broadleafcommerce.core.web.api.endpoint.catalog.CatalogEndpoint;
@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,14 +30,14 @@ import java.util.List;
 @Path("/products")
 @Produces(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 @Consumes(value = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-public class AppFactoryEndpoint extends CatalogEndpoint {
+public class ProductsEndpoint extends CatalogEndpoint {
 
     @Resource(name = "promotionService")
     private PromotionService promotionService;
 
     @GET
     @Path("categories")
-    public CategoriesWrapper getAllCategories(@Context HttpServletRequest request) {
+    public CategoriesWrapper getAllRootCategories(@Context HttpServletRequest request) {
         List<Category> categories = catalogService.findAllSubCategories(catalogService.findCategoryById(2L));
         CategoriesWrapper wrapper = context.getBean(CategoriesWrapper.class);
         wrapper.wrapSummary(categories, request);
@@ -48,13 +47,12 @@ public class AppFactoryEndpoint extends CatalogEndpoint {
 
     @GET
     @Path("categories/{id}")
-    public ProductsWrapper findProductsByCategory(@Context HttpServletRequest request, @PathParam("id") Long id) {
+    public SubCategoryWrapper viewCategory(@Context HttpServletRequest request, @PathParam("id") Long id) {
 
         Category category = catalogService.findCategoryById(id);
-        List<Product> products = catalogService.findActiveProductsByCategory(category, new Date());
 
-        ProductsWrapper wrapper = context.getBean(ProductsWrapper.class);
-        wrapper.wrapSummary(products, request);
+        SubCategoryWrapper wrapper = context.getBean(SubCategoryWrapper.class);
+        wrapper.wrapDetails(category, request);
 
         return wrapper;
     }
