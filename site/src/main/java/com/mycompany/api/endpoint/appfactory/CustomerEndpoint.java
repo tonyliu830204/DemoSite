@@ -6,15 +6,19 @@ import com.mycompany.api.endpoint.appfactory.wrappers.CustomerRegistrationWrappe
 import org.broadleafcommerce.core.web.api.wrapper.CustomerWrapper;
 import org.broadleafcommerce.profile.core.domain.Customer;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -34,6 +38,9 @@ public class CustomerEndpoint extends org.broadleafcommerce.core.web.api.endpoin
 
     @Resource(name = "afCustomerService")
     private AFCustomerService afCustomerService;
+
+    @Resource(name = "blAuthenticationManager")
+    private AuthenticationManager authenticationManager;
 
     @Path("register")
     @POST
@@ -63,4 +70,24 @@ public class CustomerEndpoint extends org.broadleafcommerce.core.web.api.endpoin
 //    public boolean changePassword(@Context HttpServletRequest request, PasswordChange passwordChange) {
 //        return true;
 //    }
+
+    @Path("login")
+    @POST
+    public CustomerWrapper login(CustomerRegistrationWrapper loginData, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+
+        String username = loginData.getEmail();
+        String password = loginData.getPassword();
+
+        Authentication authRequest = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication result = authenticationManager.authenticate(authRequest);
+        if (!result.isAuthenticated()) {
+            response.addHeader("ErrorCode", "Bad Credentials");
+            throw new BadCredentialsException("Bad Credentials");
+        }
+
+        CustomerWrapper wrapper = context.getBean(CustomerWrapper.class);
+        Customer customer = customerService.readCustomerByEmail(username);
+        wrapper.wrapSummary(customer, request);
+        return wrapper;
+    }
 }

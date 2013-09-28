@@ -5,7 +5,8 @@ If a exception is thrown while processing the request, the server will return a 
 
 ### 2. Customer
 
-#### 2.1 Request
+#### 2.1 Register
+##### 2.1.1 Request
 POST /api/v1/customers/register
 ```json
 {
@@ -15,7 +16,7 @@ POST /api/v1/customers/register
   "passwordConfirm":"xxx"
 }
 ```
-#### 2.2 Response
+#### 2.1.2 Response
 ```json
 {
   "id":"123",
@@ -23,6 +24,18 @@ POST /api/v1/customers/register
   "email":"email"
 }
 ```
+
+#### 2.2 Login
+##### 2.2.1 Request
+POST /api/v1/customers/login
+```json
+{
+    "email":"xxx",
+    "password":"xxx"
+}
+```
+##### 2.2.2 Response
+If login successfully, will return the customer data, or will return a 500 response.
 
 ### 3. Product
 #### 3.1 查看产品分类

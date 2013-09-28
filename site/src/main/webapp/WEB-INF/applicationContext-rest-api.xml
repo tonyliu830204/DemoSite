@@ -19,7 +19,8 @@
     <context:component-scan base-package="com.mycompany.api" />
     
     <!-- Set up Spring security for the RESTful API -->
-    <sec:http pattern="/api/**" create-session="stateless">
+    <sec:http pattern="/api/**" create-session="stateless" authentication-manager-ref="blAuthenticationManager">
+        <sec:intercept-url pattern="/api/v1/order/**" access="IS_AUTHENTICATED_FULLY" />
         <sec:http-basic />
         <sec:custom-filter ref="blRestPreSecurityFilterChain" before="CHANNEL_FILTER"/>
         <sec:custom-filter ref="blRestCustomerStateFilter" after="REMEMBER_ME_FILTER"/>

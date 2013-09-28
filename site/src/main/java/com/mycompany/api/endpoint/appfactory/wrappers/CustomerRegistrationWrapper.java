@@ -50,4 +50,8 @@ public class CustomerRegistrationWrapper extends BaseWrapper {
     public String getPasswordConfirm() {
         return passwordConfirm;
     }
+
+    public String getEmail() {
+        return email;
+    }
 }
