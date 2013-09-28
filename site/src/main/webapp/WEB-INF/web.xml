@@ -17,13 +17,15 @@
             classpath:/bl-open-admin-contentClient-applicationContext.xml
             classpath:/bl-cms-contentClient-applicationContext.xml
             classpath:/bl-profile-applicationContext-entity.xml
+            classpath:/bl-framework-applicationContext-entity.xml
             classpath:/applicationContext.xml
             /WEB-INF/applicationContext-datasource.xml
             /WEB-INF/applicationContext-email.xml
             /WEB-INF/applicationContext-rest-api.xml
             /WEB-INF/applicationContext-security.xml
             /WEB-INF/applicationContext-filter.xml
-            /WEB-INF/applicationContext.xml          
+            /WEB-INF/applicationContext.xml
+            /WEB-INF/applicationContext-checkout.xml
         </param-value>
     </context-param>
 

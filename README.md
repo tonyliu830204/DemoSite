@@ -65,3 +65,26 @@ GET /api/v1/products/categories/{id}
 }
 ```
 
+### 3. Checkout
+#### 3.1 performCheckout
+##### 3.1.1 Request
+POST /api/v1/order
+Headers:
+Authorization: Basic base64_encode(username:password)
+```json
+{
+    "name":"xxx",
+    "phone":"186",
+    "address":"xxx",
+    "products":[
+        {
+            "productId":"xxx",
+            "quantity":1,
+            "price":9.99,
+            "skuId":123
+        }
+    ],
+    "payment":"alipay"
+}
+```
+
