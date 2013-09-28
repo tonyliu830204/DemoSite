@@ -90,3 +90,7 @@ GET /api/v1/products/categories/{id}
 }
 ```
 
+#### 3.2 Order History
+##### 3.2.1 Request
+GET /api/v1/orders?customerId=xxx
+
