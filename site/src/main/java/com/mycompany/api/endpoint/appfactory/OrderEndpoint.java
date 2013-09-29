@@ -1,19 +1,19 @@
 package com.mycompany.api.endpoint.appfactory;
 
-import com.mycompany.api.endpoint.appfactory.wrappers.order.UnWrappableOrderWrapper;
+import com.mycompany.api.endpoint.appfactory.wrappers.order.AFOrderWrapper;
 import com.mycompany.api.endpoint.cart.CartEndpoint;
 import com.mycompany.api.endpoint.cart.FulfillmentEndpoint;
 import com.mycompany.api.endpoint.checkout.CheckoutEndpoint;
 import org.broadleafcommerce.core.checkout.service.CheckoutService;
 import org.broadleafcommerce.core.checkout.service.exception.CheckoutException;
 import org.broadleafcommerce.core.checkout.service.workflow.CheckoutResponse;
+import org.broadleafcommerce.core.order.dao.OrderDao;
 import org.broadleafcommerce.core.order.domain.Order;
-import org.broadleafcommerce.core.order.service.OrderService;
-import org.broadleafcommerce.core.pricing.service.exception.PricingException;
 import org.broadleafcommerce.core.web.api.wrapper.BaseWrapper;
-import org.broadleafcommerce.core.web.api.wrapper.OrderWrapper;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ public class OrderEndpoint extends BaseWrapper {
     CheckoutService checkoutService;
 
     @Resource
-    OrderService orderService;
+    OrderDao orderDao;
 
 
     @Resource
@@ -56,14 +56,12 @@ public class OrderEndpoint extends BaseWrapper {
     CheckoutEndpoint checkoutEndpoint;
 
     @POST
-    public OrderWrapper createOrder(UnWrappableOrderWrapper orderWrapper, @Context HttpServletRequest request) throws CheckoutException {
+    public AFOrderWrapper createOrder(AFOrderWrapper orderWrapper, @Context HttpServletRequest request) throws CheckoutException {
         Order order = orderWrapper.unwrap(request, context);
+        order = orderDao.save(order);
+        CheckoutResponse response = checkoutService.performCheckout(order);
 
-        CheckoutResponse checkoutResponse = checkoutService.performCheckout(order);
-
-        OrderWrapper wrapper = (OrderWrapper) context.getBean(OrderWrapper.class.getName());
-        wrapper.wrapSummary(checkoutResponse.getOrder(), request);
-        return wrapper;
+        return orderWrapper;
     }
 
 }

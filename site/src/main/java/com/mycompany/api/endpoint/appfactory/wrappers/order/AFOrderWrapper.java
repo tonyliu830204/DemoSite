@@ -1,0 +1,100 @@
+package com.mycompany.api.endpoint.appfactory.wrappers.order;
+
+import org.broadleafcommerce.common.money.Money;
+import org.broadleafcommerce.core.catalog.domain.Sku;
+import org.broadleafcommerce.core.catalog.service.CatalogService;
+import org.broadleafcommerce.core.order.domain.*;
+import org.broadleafcommerce.core.order.service.type.FulfillmentType;
+import org.broadleafcommerce.core.order.service.type.OrderStatus;
+import org.broadleafcommerce.core.web.api.wrapper.APIUnwrapper;
+import org.broadleafcommerce.core.web.api.wrapper.BaseWrapper;
+import org.broadleafcommerce.profile.core.domain.Address;
+import org.broadleafcommerce.profile.core.domain.Customer;
+import org.broadleafcommerce.profile.core.domain.Phone;
+import org.broadleafcommerce.profile.core.service.CustomerService;
+import org.springframework.context.ApplicationContext;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: liweinan
+ * Date: 13-9-29
+ * Time: AM9:32
+ * To change this template use File | Settings | File Templates.
+ */
+@XmlRootElement(name = "order")
+public class AFOrderWrapper implements APIUnwrapper<Order> {
+
+    @XmlElement
+    private String name;
+
+    @XmlElement
+    private String phone;
+
+    @XmlElement
+    private String address;
+
+    @XmlElement
+    private String subTotal;
+
+    @XmlElementWrapper(name = "products")
+    @XmlElement
+    private List<OrderProductWrapper> products = new ArrayList<OrderProductWrapper>();
+
+    private String payment = "alipay";
+
+    @Override
+    public Order unwrap(HttpServletRequest request, ApplicationContext context) {
+
+        CustomerService customerService = context.getBean("blCustomerService", CustomerService.class);
+
+        Order order = context.getBean(Order.class);
+        order.setStatus(OrderStatus.IN_PROCESS);
+        String customerEmail = request.getRemoteUser();
+        if (customerEmail != null) {
+            order.setEmailAddress(customerEmail);
+            Customer customer = customerService.readCustomerByEmail(customerEmail);
+            order.setCustomer(customer);
+        }
+        Money subTotal = new Money(this.subTotal);
+        order.setSubTotal(subTotal);
+        order.setTotal(subTotal);
+        order.setSubmitDate(new Date());
+
+        for (OrderProductWrapper product : products) {
+            OrderItem item = product.unwrap(request, context);
+            order.addOrderItem(item);
+            item.setOrder(order);
+        }
+
+        FulfillmentGroup group = context.getBean(FulfillmentGroup.class);
+        group.setOrder(order);
+        Phone phone = context.getBean(Phone.class);
+        phone.setPhoneNumber(this.phone);
+        group.setPhone(phone);
+        Address address = context.getBean(Address.class);
+        address.setEmailAddress(customerEmail);
+        address.setFirstName(name);
+        address.setAddressLine1(this.address);
+        address.setCity("XXX");
+        address.setPostalCode("000");
+
+        group.setAddress(address);
+        group.setPrimary(true);
+        group.setType(FulfillmentType.PHYSICAL_SHIP);
+
+        List<FulfillmentGroup> groups = new ArrayList<FulfillmentGroup>();
+        groups.add(group);
+        order.setFulfillmentGroups(groups);
+
+        return order;
+    }
+}

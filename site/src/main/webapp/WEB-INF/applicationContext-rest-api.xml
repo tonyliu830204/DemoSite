@@ -58,8 +58,8 @@
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.PostWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ContactInfoWrapper" scope="prototype" />
     <bean class="com.mycompany.api.endpoint.appfactory.wrappers.ContactInfosWrapper" scope="prototype" />
-    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.order.UnWrappableOrderWrapper" scope="prototype" />
-    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.order.UnWrappableOrderItemWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.order.AFOrderWrapper" scope="prototype" />
+    <bean class="com.mycompany.api.endpoint.appfactory.wrappers.order.OrderProductWrapper" scope="prototype" />
 
     <alias name="blOrderService" alias="blCartService" />
 </beans>
