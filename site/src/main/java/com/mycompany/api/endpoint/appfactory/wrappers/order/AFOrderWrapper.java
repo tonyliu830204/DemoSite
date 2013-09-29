@@ -1,12 +1,13 @@
 package com.mycompany.api.endpoint.appfactory.wrappers.order;
 
 import org.broadleafcommerce.common.money.Money;
-import org.broadleafcommerce.core.catalog.domain.Sku;
-import org.broadleafcommerce.core.catalog.service.CatalogService;
-import org.broadleafcommerce.core.order.domain.*;
+import org.broadleafcommerce.core.order.domain.FulfillmentGroup;
+import org.broadleafcommerce.core.order.domain.Order;
+import org.broadleafcommerce.core.order.domain.OrderItem;
 import org.broadleafcommerce.core.order.service.type.FulfillmentType;
 import org.broadleafcommerce.core.order.service.type.OrderStatus;
 import org.broadleafcommerce.core.web.api.wrapper.APIUnwrapper;
+import org.broadleafcommerce.core.web.api.wrapper.APIWrapper;
 import org.broadleafcommerce.core.web.api.wrapper.BaseWrapper;
 import org.broadleafcommerce.profile.core.domain.Address;
 import org.broadleafcommerce.profile.core.domain.Customer;
@@ -14,7 +15,6 @@ import org.broadleafcommerce.profile.core.domain.Phone;
 import org.broadleafcommerce.profile.core.service.CustomerService;
 import org.springframework.context.ApplicationContext;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -31,7 +31,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement(name = "order")
-public class AFOrderWrapper implements APIUnwrapper<Order> {
+public class AFOrderWrapper extends BaseWrapper implements APIUnwrapper<Order>, APIWrapper<Order> {
 
     @XmlElement
     private String name;
@@ -44,6 +44,9 @@ public class AFOrderWrapper implements APIUnwrapper<Order> {
 
     @XmlElement
     private String subTotal;
+
+    @XmlElement
+    private String status;
 
     @XmlElementWrapper(name = "products")
     @XmlElement
@@ -86,6 +89,7 @@ public class AFOrderWrapper implements APIUnwrapper<Order> {
         address.setAddressLine1(this.address);
         address.setCity("XXX");
         address.setPostalCode("000");
+        address.setPhonePrimary(phone);
 
         group.setAddress(address);
         group.setPrimary(true);
@@ -96,5 +100,37 @@ public class AFOrderWrapper implements APIUnwrapper<Order> {
         order.setFulfillmentGroups(groups);
 
         return order;
+    }
+
+    @Override
+    public void wrapDetails(Order model, HttpServletRequest request) {
+
+        this.status = model.getStatus().getType();
+
+        List<FulfillmentGroup> fulfillmentGroups = model.getFulfillmentGroups();
+        if (fulfillmentGroups != null && fulfillmentGroups.size() > 0) {
+            Address address = fulfillmentGroups.get(0).getAddress();
+            this.address = address.getAddressLine1();
+            this.name = address.getFirstName();
+            Phone phone = address.getPhonePrimary();
+            if (phone != null) {
+                this.phone = address.getPhonePrimary().getPhoneNumber();
+            } else {
+                this.phone = fulfillmentGroups.get(0).getPhone().getPhoneNumber();
+            }
+
+        }
+        this.subTotal = model.getSubTotal().getAmount().toString();
+
+        for (OrderItem item : model.getOrderItems()) {
+            OrderProductWrapper orderProductWrapper = context.getBean(OrderProductWrapper.class);
+            orderProductWrapper.wrapDetails(item, request);
+            this.products.add(orderProductWrapper);
+        }
+    }
+
+    @Override
+    public void wrapSummary(Order model, HttpServletRequest request) {
+        wrapDetails(model, request);
     }
 }

@@ -67,27 +67,28 @@ public class CustomerEndpoint extends org.broadleafcommerce.core.web.api.endpoin
 
     }
 
-//    public boolean changePassword(@Context HttpServletRequest request, PasswordChange passwordChange) {
-//        return true;
-//    }
 
     @Path("login")
     @POST
     public CustomerWrapper login(CustomerRegistrationWrapper loginData, @Context HttpServletRequest request, @Context HttpServletResponse response) {
+        try {
+            String username = loginData.getEmail();
+            String password = loginData.getPassword();
 
-        String username = loginData.getEmail();
-        String password = loginData.getPassword();
+            Authentication authRequest = new UsernamePasswordAuthenticationToken(username, password);
+            Authentication result = authenticationManager.authenticate(authRequest);
+            if (!result.isAuthenticated()) {
+                response.addHeader("ErrorCode", "Bad Credentials");
+                throw new BadCredentialsException("Bad Credentials");
+            }
 
-        Authentication authRequest = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication result = authenticationManager.authenticate(authRequest);
-        if (!result.isAuthenticated()) {
-            response.addHeader("ErrorCode", "Bad Credentials");
-            throw new BadCredentialsException("Bad Credentials");
+            CustomerWrapper wrapper = context.getBean(CustomerWrapper.class);
+            Customer customer = customerService.readCustomerByEmail(username);
+            wrapper.wrapSummary(customer, request);
+            return wrapper;
+        } catch (BadCredentialsException e) {
+            response.addHeader("ErrorCode", "BadCredentials");
         }
-
-        CustomerWrapper wrapper = context.getBean(CustomerWrapper.class);
-        Customer customer = customerService.readCustomerByEmail(username);
-        wrapper.wrapSummary(customer, request);
-        return wrapper;
+        return null;
     }
 }

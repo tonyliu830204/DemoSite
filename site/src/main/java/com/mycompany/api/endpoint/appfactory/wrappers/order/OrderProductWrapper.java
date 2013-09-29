@@ -7,6 +7,7 @@ import org.broadleafcommerce.core.catalog.service.CatalogService;
 import org.broadleafcommerce.core.order.domain.DiscreteOrderItem;
 import org.broadleafcommerce.core.order.domain.OrderItem;
 import org.broadleafcommerce.core.web.api.wrapper.APIUnwrapper;
+import org.broadleafcommerce.core.web.api.wrapper.APIWrapper;
 import org.springframework.context.ApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement(name = "product")
-public class OrderProductWrapper implements APIUnwrapper<OrderItem> {
+public class OrderProductWrapper implements APIUnwrapper<OrderItem>, APIWrapper<OrderItem> {
 
     @XmlElement
     private Long productId;
@@ -55,5 +56,21 @@ public class OrderProductWrapper implements APIUnwrapper<OrderItem> {
         item.setPrice(money);
 
         return item;
+    }
+
+    @Override
+    public void wrapDetails(OrderItem model, HttpServletRequest request) {
+        this.quantity = model.getQuantity();
+        this.price = model.getPrice().getAmount().toString();
+        if (model instanceof DiscreteOrderItem) {
+            DiscreteOrderItem discreteOrderItem = (DiscreteOrderItem) model;
+            this.productId = discreteOrderItem.getProduct().getId();
+            this.skuId = discreteOrderItem.getSku().getId();
+        }
+    }
+
+    @Override
+    public void wrapSummary(OrderItem model, HttpServletRequest request) {
+        wrapDetails(model, request);
     }
 }

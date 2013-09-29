@@ -92,5 +92,27 @@ GET /api/v1/products/categories/{id}
 
 #### 3.2 Order History
 ##### 3.2.1 Request
-GET /api/v1/orders?customerId=xxx
+* GET /api/v1/orders
+* Headers
+  * Authorization: Basic `base64-encode(username:password)`
 
+##### 3.2.2 Response
+```json
+[
+    {
+        "name": "weinan",
+        "phone": "111",
+        "address": "test",
+        "subTotal": "14.99",
+        "status":"SUBMITTED/IN_PROCESS/CANCELLED",
+        "products": [
+            {
+                "productId": 100,
+                "quantity": 1,
+                "price": "14.99",
+                "skuId": 111
+            }
+        ]
+    }
+]
+```

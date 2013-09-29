@@ -9,7 +9,10 @@ import org.broadleafcommerce.core.checkout.service.exception.CheckoutException;
 import org.broadleafcommerce.core.checkout.service.workflow.CheckoutResponse;
 import org.broadleafcommerce.core.order.dao.OrderDao;
 import org.broadleafcommerce.core.order.domain.Order;
+import org.broadleafcommerce.core.order.service.OrderService;
 import org.broadleafcommerce.core.web.api.wrapper.BaseWrapper;
+import org.broadleafcommerce.profile.core.domain.Customer;
+import org.broadleafcommerce.profile.core.service.CustomerService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -17,12 +20,11 @@ import org.springframework.transaction.TransactionStatus;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -45,15 +47,12 @@ public class OrderEndpoint extends BaseWrapper {
     @Resource
     OrderDao orderDao;
 
-
     @Resource
-    CartEndpoint cartEndpoint;
+    OrderService orderService;
 
-    @Resource
-    FulfillmentEndpoint fulfillmentEndpoint;
+    @Resource(name = "blCustomerService")
+    CustomerService customerService;
 
-    @Resource
-    CheckoutEndpoint checkoutEndpoint;
 
     @POST
     public AFOrderWrapper createOrder(AFOrderWrapper orderWrapper, @Context HttpServletRequest request) throws CheckoutException {
@@ -62,6 +61,21 @@ public class OrderEndpoint extends BaseWrapper {
         CheckoutResponse response = checkoutService.performCheckout(order);
 
         return orderWrapper;
+    }
+
+    @GET
+    public List<AFOrderWrapper> viewOrders(@Context HttpServletRequest request) {
+        Customer customer =  customerService.readCustomerByEmail(request.getRemoteUser());
+        List<Order> orderList = orderService.findOrdersForCustomer(customer);
+
+        List<AFOrderWrapper> result = new ArrayList<AFOrderWrapper>();
+        for (Order order : orderList) {
+            AFOrderWrapper wrapper = context.getBean(AFOrderWrapper.class);
+            wrapper.wrapDetails(order, request);
+            result.add(wrapper);
+        }
+
+        return result;
     }
 
 }
