@@ -76,16 +76,21 @@ public class AFOrderWrapper extends BaseWrapper implements APIUnwrapper<Order>, 
             Customer customer = customerService.readCustomerByEmail(customerEmail);
             order.setCustomer(customer);
         }
-        Money subTotal = new Money(this.subTotal);
-        order.setSubTotal(subTotal);
-        order.setTotal(subTotal);
+
         order.setSubmitDate(new Date());
+
+        double sub_total = 0d;
 
         for (OrderProductWrapper product : products) {
             OrderItem item = product.unwrap(request, context);
             order.addOrderItem(item);
             item.setOrder(order);
+            sub_total += item.getPrice().doubleValue() * item.getQuantity();
         }
+
+        Money subTotal = new Money(sub_total);
+        order.setSubTotal(subTotal);
+        order.setTotal(subTotal);
 
         FulfillmentGroup group = context.getBean(FulfillmentGroup.class);
         group.setOrder(order);
