@@ -1,9 +1,6 @@
 package com.mycompany.api.endpoint.appfactory;
 
 import com.mycompany.api.endpoint.appfactory.wrappers.order.AFOrderWrapper;
-import com.mycompany.api.endpoint.cart.CartEndpoint;
-import com.mycompany.api.endpoint.cart.FulfillmentEndpoint;
-import com.mycompany.api.endpoint.checkout.CheckoutEndpoint;
 import org.broadleafcommerce.core.checkout.service.CheckoutService;
 import org.broadleafcommerce.core.checkout.service.exception.CheckoutException;
 import org.broadleafcommerce.core.checkout.service.workflow.CheckoutResponse;
@@ -15,8 +12,6 @@ import org.broadleafcommerce.profile.core.domain.Customer;
 import org.broadleafcommerce.profile.core.service.CustomerService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionStatus;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -60,7 +55,11 @@ public class OrderEndpoint extends BaseWrapper {
         order = orderDao.save(order);
         CheckoutResponse response = checkoutService.performCheckout(order);
 
-        return orderWrapper;
+        Order resultOrder = response.getOrder();
+        AFOrderWrapper resultWrapper = context.getBean(AFOrderWrapper.class);
+        resultWrapper.wrapDetails(resultOrder, request);
+
+        return resultWrapper;
     }
 
     @GET

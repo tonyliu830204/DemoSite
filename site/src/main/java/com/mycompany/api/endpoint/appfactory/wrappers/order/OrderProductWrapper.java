@@ -1,5 +1,6 @@
 package com.mycompany.api.endpoint.appfactory.wrappers.order;
 
+import com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryProductWrapper;
 import org.broadleafcommerce.common.money.Money;
 import org.broadleafcommerce.core.catalog.domain.Product;
 import org.broadleafcommerce.core.catalog.domain.Sku;
@@ -8,6 +9,7 @@ import org.broadleafcommerce.core.order.domain.DiscreteOrderItem;
 import org.broadleafcommerce.core.order.domain.OrderItem;
 import org.broadleafcommerce.core.web.api.wrapper.APIUnwrapper;
 import org.broadleafcommerce.core.web.api.wrapper.APIWrapper;
+import org.broadleafcommerce.core.web.api.wrapper.BaseWrapper;
 import org.springframework.context.ApplicationContext;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * To change this template use File | Settings | File Templates.
  */
 @XmlRootElement(name = "product")
-public class OrderProductWrapper implements APIUnwrapper<OrderItem>, APIWrapper<OrderItem> {
+public class OrderProductWrapper extends BaseWrapper implements APIUnwrapper<OrderItem>, APIWrapper<OrderItem> {
 
     @XmlElement
     private Long productId;
@@ -35,6 +37,9 @@ public class OrderProductWrapper implements APIUnwrapper<OrderItem>, APIWrapper<
 
     @XmlElement
     private Long skuId;
+
+    @XmlElement(name = "product")
+    private AppFactoryProductWrapper product;
 
     @Override
     public OrderItem unwrap(HttpServletRequest request, ApplicationContext context) {
@@ -64,8 +69,12 @@ public class OrderProductWrapper implements APIUnwrapper<OrderItem>, APIWrapper<
         this.price = model.getPrice().getAmount().toString();
         if (model instanceof DiscreteOrderItem) {
             DiscreteOrderItem discreteOrderItem = (DiscreteOrderItem) model;
-            this.productId = discreteOrderItem.getProduct().getId();
+            Product product = discreteOrderItem.getProduct();
+            this.productId = product.getId();
             this.skuId = discreteOrderItem.getSku().getId();
+            AppFactoryProductWrapper productWrapper = context.getBean(AppFactoryProductWrapper.class);
+            productWrapper.wrapDetails(product, request);
+            this.product = productWrapper;
         }
     }
 

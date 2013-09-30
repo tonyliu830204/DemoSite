@@ -34,6 +34,9 @@ import java.util.List;
 public class AFOrderWrapper extends BaseWrapper implements APIUnwrapper<Order>, APIWrapper<Order> {
 
     @XmlElement
+    private String id;
+
+    @XmlElement
     private String name;
 
     @XmlElement
@@ -47,6 +50,12 @@ public class AFOrderWrapper extends BaseWrapper implements APIUnwrapper<Order>, 
 
     @XmlElement
     private String status;
+
+    @XmlElement
+    private String orderNumber;
+
+    @XmlElement
+    private Date submitDate;
 
     @XmlElementWrapper(name = "products")
     @XmlElement
@@ -104,7 +113,9 @@ public class AFOrderWrapper extends BaseWrapper implements APIUnwrapper<Order>, 
 
     @Override
     public void wrapDetails(Order model, HttpServletRequest request) {
-
+        this.id = model.getId().toString();
+        this.orderNumber = model.getOrderNumber();
+        this.submitDate = model.getSubmitDate();
         this.status = model.getStatus().getType();
 
         List<FulfillmentGroup> fulfillmentGroups = model.getFulfillmentGroups();
