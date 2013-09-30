@@ -47,15 +47,18 @@ public class OrderProductWrapper extends BaseWrapper implements APIUnwrapper<Ord
         CatalogService catalogService = context.getBean(CatalogService.class);
 
         DiscreteOrderItem item = context.getBean("org.broadleafcommerce.core.order.domain.DiscreteOrderItem", DiscreteOrderItem.class);
-        if (this.skuId != null) {
-            Sku sku = catalogService.findSkuById(this.skuId);
-            item.setSku(sku);
-        }
-
         Product product = catalogService.findProductById(this.productId);
         if (product != null) {
             item.setProduct(product);
         }
+
+        if (this.skuId != null) {
+            Sku sku = catalogService.findSkuById(this.skuId);
+            item.setSku(sku);
+        } else {
+            item.setSku(product.getDefaultSku());
+        }
+
 
         item.setQuantity(quantity);
         Money money = new Money(price);
