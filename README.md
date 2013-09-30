@@ -85,14 +85,13 @@ GET /api/v1/products/categories/{id}
             "price":9.99,
             "skuId":123
         }
-    ],
-    "payment":"alipay"
+    ]
 }
 ```
 
 #### 3.2 Order History
 ##### 3.2.1 Request
-* GET /api/v1/orders
+* GET /api/v1/order
 * Headers
   * Authorization: Basic `base64-encode(username:password)`
 
