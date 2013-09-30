@@ -1,6 +1,7 @@
 package com.mycompany.api.endpoint.appfactory.wrappers.order;
 
 import com.mycompany.api.endpoint.appfactory.wrappers.AppFactoryProductWrapper;
+import org.apache.commons.lang3.StringUtils;
 import org.broadleafcommerce.common.money.Money;
 import org.broadleafcommerce.core.catalog.domain.Product;
 import org.broadleafcommerce.core.catalog.domain.Sku;
@@ -46,8 +47,8 @@ public class OrderProductWrapper extends BaseWrapper implements APIUnwrapper<Ord
         CatalogService catalogService = context.getBean(CatalogService.class);
 
         DiscreteOrderItem item = context.getBean("org.broadleafcommerce.core.order.domain.DiscreteOrderItem", DiscreteOrderItem.class);
-        Sku sku = catalogService.findSkuById(this.skuId);
-        if (sku != null) {
+        if (this.skuId != null) {
+            Sku sku = catalogService.findSkuById(this.skuId);
             item.setSku(sku);
         }
 
